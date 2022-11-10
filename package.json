@@ -1,0 +1,39 @@
+{
+  "name": "bptf-classifieds",
+  "version": "1.0.0",
+  "description": "A Node.js wrapper for the Backpack.tf Classifieds Web API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --require dotenv/config --timeout 5000",
+    "fix": "eslint . --fix",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SnaBe/node-bptf-classifieds.git"
+  },
+  "keywords": [
+    "wrapper",
+    "promise",
+    "web-api",
+    "tf2",
+    "callback",
+    "classifieds",
+    "listings",
+    "bptf",
+    "backpack-tf"
+  ],
+  "author": "Simon Sørensen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SnaBe/node-bptf-classifieds/issues"
+  },
+  "homepage": "https://github.com/SnaBe/node-bptf-classifieds#readme",
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.27.0",
+    "mocha": "^10.1.0",
+    "typescript": "^4.8.4"
+  }
+}
