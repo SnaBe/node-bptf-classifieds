@@ -2,11 +2,18 @@
   "name": "bptf-classifieds",
   "version": "1.0.0",
   "description": "A Node.js wrapper for the Backpack.tf Classifieds Web API.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "mocha --require dotenv/config --timeout 5000",
-    "fix": "eslint . --fix",
-    "lint": "eslint ."
+    "fix": "eslint -c .eslintrc.json . --fix",
+    "lint": "eslint -c .eslintrc.json .",
+    "prepublishOnly": "npm run build",
+    "build": "npm run clean && tsc",
+    "clean": "rimraf dist"
   },
   "repository": {
     "type": "git",
@@ -30,10 +37,19 @@
   },
   "homepage": "https://github.com/SnaBe/node-bptf-classifieds#readme",
   "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
     "chai": "^4.3.7",
     "dotenv": "^16.0.3",
     "eslint": "^8.27.0",
     "mocha": "^10.1.0",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.9.1",
     "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "axios": "^1.1.3"
   }
 }

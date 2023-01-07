@@ -1,6 +1,92 @@
 # node-bptf-classifieds
 A Node.js wrapper for the Backpack.tf Classifieds Web API.
 
+[![npm version](https://img.shields.io/npm/v/bptf-classifieds.svg)](https://npmjs.com/package/bptf-classifieds)
+[![node version](https://img.shields.io/node/v/bptf-classifieds)](https://nodejs.org/en/about/releases/)
+[![npm test](https://img.shields.io/github/actions/workflow/status/SnaBe/node-bptf-classifieds/test.yml?logo=github&branch=main)](https://github.com/SnaBe/node-bptf-classifieds/actions/workflows/test.yml)
+[![dependencies](https://img.shields.io/librariesio/release/npm/bptf-classifieds)](https://www.npmjs.com/package/bptf-classifieds)
+[![npm downloads](https://img.shields.io/npm/dm/bptf-classifieds.svg)](https://npmjs.com/package/bptf-classifieds)
+[![license](https://img.shields.io/npm/l/bptf-classifieds.svg)](https://github.com/SnaBe/node-bptf-classifieds/blob/master/LICENSE)
+[![paypal](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.me/snabe)
+
+## Installation
+
+Using [npm](https://www.npmjs.com/package/bptf-classifieds):
+
+```bash
+$ npm install bptf-classifieds
+```
+
+Using [yarn](https://yarnpkg.com/package/bptf-classifieds):
+
+```bash
+$ yarn add bptf-classifieds
+```
+
+## Testing
+
+**Note**: Make sure you've supplied a valid `user token` in the [test.js](https://github.com/SnaBe/node-bptf-prices/blob/main/test/test.js) file.
+
+Using [npm](https://docs.npmjs.com/cli/v8/commands/npm-run-script):
+```bash
+$ npm test
+```
+
+Using [yarn](https://classic.yarnpkg.com/lang/en/docs/cli/run/):
+```bash
+$ yarn test
+```
+
+## Examples
+
+### Importing with `CommonJS`
+
+```js
+const Classifieds = require('bptf-classifieds');
+```
+
+### or with `ES6's import` statement
+
+```js
+import Classifieds from 'bptf-classifieds';
+```
+
+### Instantiating with the `apiKey` option
+```js
+const classifieds = new Classifieds('XXXXXXXXXXXXXXXXXXXXXXXX');
+```
+
+### Asynchronous requests with `callbacks`
+
+```js
+classifieds.getListings({
+    SKU: 'Fizzy Pharmacist',
+    callback: (err, data) => {
+        if (err) throw err;
+
+        console.log(data.listings);
+    }
+});
+```
+
+### Asynchronous requests with `async`/`await`
+
+```js
+(async () => {
+    try {
+        const data = await classifieds.getListings({ 
+            SKU: 'Bird-Man of Aberdeen'
+        });
+
+        console.log(data.listings);
+    } catch (error) {
+        console.error('An error occurred: ', error);
+    }
+})();
+```
+
+There are some more examples available in the [test](https://github.com/SnaBe/node-bptf-prices/tree/main/test) directory.
+
 ## Documentation
 
 See the [Wiki pages](https://github.com/SnaBe/node-bptf-classifieds/wiki) for further documentation.
@@ -9,4 +95,4 @@ See the [Wiki pages](https://github.com/SnaBe/node-bptf-classifieds/wiki) for fu
 
 [MIT](LICENSE)
 
-Copyright 2022, Simon Sørensen
+Copyright 2023, Simon Sørensen
