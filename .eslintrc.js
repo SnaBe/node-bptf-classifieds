@@ -1,4 +1,4 @@
-{
+module.exports = {
     "env": {
         "es2021": true,
         "node": true
@@ -20,11 +20,14 @@
     "rules": {
         "indent": [
             "error",
-            4
+            4,
+            {
+                "SwitchCase": 1
+            }
         ],
         "linebreak-style": [
             "error",
-            "windows"
+            process.platform === "win32" ? "windows" : "unix"
         ],
         "quotes": [
             "error",
@@ -33,6 +36,9 @@
         "semi": [
             "error",
             "never"
+        ],
+        "@typescript-eslint/no-explicit-any": [
+            "off"
         ]
     }
 }

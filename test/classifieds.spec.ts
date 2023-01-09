@@ -6,7 +6,7 @@ const classifieds = new Classifieds(process.env.USER_TOKEN)
 
 describe('getListings', () => {
     it('should return an array of item listings relevant to the SKU', (done) => {
-        classifieds.getListings({ sku: 'Strange Sunbeams Federal Casemaker', callback: (error, response) => {
+        classifieds.getListings({ sku: 'Sunbeams Federal Casemaker', callback: (error, response) => {
             if (error) return done(error)
 
             console.log(response)
