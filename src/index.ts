@@ -1,99 +1,14 @@
 import axios from 'axios'
 
 import { ClassifiedsBody, ClassifiedsResponse, ClassifiedsCallback } from './types/classifieds'
-
-export interface Listing {
-    steamid: string,
-    offers: number,
-    buyout: number
-    details: string,
-    timestamp: number,
-    intent: 'sell' | 'buy',
-    price: number,
-    item: any,
-    currencies: any,
-    bump: number,
-    userAgent: any
-}
-
-export interface ListingAttribute {
-    defindex: number,
-    value: number,
-    float_value: number
-}
-
-export interface ListingElement {
-    id: string,
-    steamid?: string,
-    appid: number,
-    currencies: {
-        metal?: number,
-        keys?: number
-    },
-    offers: number,
-    buyout: number,
-    details: string,
-    created: number,
-    bump: number,
-    intent: 0 | 1,
-    item: {
-        id: number,
-        original_id: number,
-        defindex: number,
-        level: number,
-        quality: number,
-        inventory: number,
-        quantity: number,
-        origin: number,
-        attributes: Array<ListingAttribute>,
-        name: string
-    },
-    automatic?: number,
-    count?: number,
-    promoted?: number
-}
-
-export interface CreateListing {
-    intent: 'sell' | 'buy',
-    id: string,
-    item?: {
-        quality: string,
-        item_name: string,
-        craftable?: string | number,
-        priceindex?: number
-    },
-    offers?: number,
-    buyout?: number,
-    promoted?: number,
-    details?: string,
-    currencies: {
-        metal?: number,
-        keys?: number
-    }
-}
+import { GetMyListingsResponse, GetListingsResponse, CreateListingsResponse, GetMyListingsParameters, GetListingsParameters, CreateListingsParameters } from './types/listings'
+import { CreateListingParameters, DeleteAllListingsParameters, DeleteListingParameters, DeleteListingsParameters, GetListingParameters, GetUserListingsParameters } from './types/listings/parameters'
+import { CreateListingResponse, DeleteAllListingsResponse, DeleteListingsResponse, GetListingResponse } from './types/listings/responses'
 
 export interface SearchResponse {
     response: {
         message: string
     }
-}
-
-export interface GetMyListingsResponse {
-    message?: string,
-    cap: number,
-    promotes_remaining: number,
-    listings?: Array<ListingElement>
-}
-
-export interface GetListingsResponse {
-    listings?: Array<Listing>,
-    appid: number,
-    sku: string,
-    createdAt: number
-}
-
-export interface CreateListingsResponse {
-    message: string
 }
 
 export interface SearchParameters {
@@ -105,19 +20,30 @@ export interface SearchParameters {
     callback?: (error: Error | null, response: SearchResponse | null) => void
 }
 
-export interface GetMyListingsParameters {
-    inactive?: 0 | 1,
-    callback?: (error: Error | null, response: GetMyListingsResponse | null) => void
+export interface GetUserLimitsResponse {
+    listings: {
+        promotionSlotsAvailable?: number,
+        used: number,
+        total: number,
+        baseline?: number,
+        donationBonus?: number,
+        giftedPremiumMonthsBonus?: number,
+        multiplier?: number,
+        twitterFollowerBonus?: number,
+        acceptedSuggestionBonus?: number,
+        mvpDonationBonus?: number,
+        groupMembershipBonus?: number,
+        bumpInterval?: number
+    }
 }
 
-export interface GetListingsParameters {
-    appid?: number,
-    sku?: string,
-    callback?: (error: Error | null, response: GetListingsResponse | null) => void
+export interface GetUserLimitsParameters {
+    callback?: (error: Error | null, response: GetUserLimitsResponse | null) => void
 }
 
-export interface CreateListingsParameters  {
-    callback?: (error: Error | null, response: CreateListingsResponse | null) => void
+export interface ClassifiedsOptions {
+    token?: string,
+    key?: string
 }
 
 // Wrapper class for the Backpack.tf Classifieds Web API
@@ -230,9 +156,10 @@ class Classifieds {
      * Search the Backpack.tf Classifieds programmatically.
      * @param { any } params An object of valid arguments for the /classifieds/search/v1 endpoint.
      * @param { string } params.item The item's name, defaults to Team Captain.
-     * @returns { Promise<SearchResponse> | Function } Backpack.tf Classifieds matching the method parameters.
+     * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
+     * @returns { Promise<SearchResponse> | void } Backpack.tf Classifieds matching the method parameters.
      */
-    search({ intent = 'dual', page_size = 10, fold = 1, item = 'Team Captain', callback }: SearchParameters): Promise<SearchResponse> | void {
+    search({ intent = 'dual', page_size = 10, fold = 1, item = 'Team Captain', callback }: SearchParameters = {}): Promise<SearchResponse> | void {
         // Check if the API key is defined
         if (this.key === undefined || this.key.length === 0 || this.key === '') throw new Error('The Backpack.tf API key is an invalid string or missing.')
         
@@ -244,10 +171,10 @@ class Classifieds {
      * Get your own Backpack.tf Classifieds listings.
      * @param { any } params An object of valid arguments for the /classifieds/listings/v1 endpoint.
      * @param { number } params.inactive If 0, hides your inactive listings.
-     * @param { Function } params.callback Optional, called when a response is available. If omitted the function returns a promise.
-     * @returns { Promise<GetMyListingsResponse> | Function } Your Backpack.tf Classifieds listings.
+     * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
+     * @returns { Promise<GetMyListingsResponse> | void } Your Backpack.tf Classifieds listings.
      */
-    getMyListings({ inactive = 1, callback }: GetMyListingsParameters): Promise<GetMyListingsResponse> | void {
+    getMyListings({ inactive = 1, callback }: GetMyListingsParameters = {}): Promise<GetMyListingsResponse> | void {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
@@ -256,11 +183,20 @@ class Classifieds {
     }
 
     /**
+     * Delete multiple Classifieds listings.
+     * @param { any } params 
+     * @returns { Promise<DeleteListingsResponse> | void }
+     */
+    deleteListings({ callback }: DeleteListingsParameters = {}): Promise<DeleteListingsResponse> | void {
+        return this.DELETE(`https://backpack.tf/api//classifieds/delete/v1`, callback)
+    }
+
+    /**
      * Create multiple Classifieds listings.
      * @param params An object of valid arguments for the /classifieds/list/v1 endpoint.
-     * @returns { Promise<CreateListingsResponse> | Function }
+     * @returns { Promise<CreateListingsResponse> | void }
      */
-    createListings({ callback }: CreateListingsParameters): Promise<CreateListingsResponse> | void {
+    createListings({ callback }: CreateListingsParameters = {}): Promise<CreateListingsResponse> | void {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
@@ -269,14 +205,80 @@ class Classifieds {
     }
 
     /**
+     * 
+     * @param param0 
+     * @returns { Promise<GetListingResponse> | void }
+     */
+    getListing({ callback }: GetListingParameters = {}): Promise<GetListingResponse> | void {
+        return this.GET(``, callback)
+    }
+
+    /**
+     * 
+     * @param param0 
+     * @returns { Promise<DeleteListingsResponse> | void }
+     */
+    deleteListing({ callback }: DeleteListingParameters = {}): Promise<DeleteListingsResponse> | void {
+        return this.DELETE(``, callback)
+    }
+
+    /**
+     * Get the listing limits of the session user.
+     * @param { any } params An object of valid arguments for the /classifieds/limits endpoint.
+     * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
+     * @returns { Promise<UserLimitsResponse> | void } The listing limits of the session user.
+     */
+    getUserLimits({ callback }: GetUserLimitsParameters = {}): Promise<GetUserLimitsResponse> | void {
+        // Check if the token is defined
+        if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
+        
+        // Return the response from the /classifieds/limits endpoint
+        return this.GET(`https://backpack.tf/api/classifieds/limits?token=${this.token}`, callback)
+    }
+
+    /**
+     * 
+     * @param param0 
+     * @returns 
+     */
+    createListing({ callback }: CreateListingParameters = {}): Promise<CreateListingResponse> | void {
+        return this.POST(`https://backpack.tf/api/classifieds/listings`, callback)
+    }
+
+    /**
+     * 
+     * @param param0 
+     * @returns 
+     */
+    deleteAllListings({ callback }: DeleteAllListingsParameters = {}): Promise<DeleteAllListingsResponse> | void {
+        return this.DELETE(`https://backpack.tf/api/classifieds/listings`, callback)
+    }
+
+    /**
+     * Get the listings for the current session user.
+     * @param { any } params An object of valid arguments for the /classifieds/listings/snapshot endpoint.
+     * @param { number } params.skip The offset at which to return listings.
+     * @param { number } params.limit The listing limit.
+     * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
+     * @returns The listings for the current session user.
+     */
+    getUserListings({ skip = 0, limit = 100, callback }: GetUserListingsParameters = {}): Promise<GetUserLimitsResponse> | void {
+        // Check if the token is defined
+        if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
+
+        // Return the response from the /classifieds/listings/self endpoint
+        return this.GET(`https://backpack.tf/api/classifieds/listings/self?skip=${skip}&limit=${limit}&token=${this.token}`, callback)
+    }
+
+    /**
      * Get an array of relevant listings for an item SKU.
      * @param { any } params An object of valid arguments for the /classifieds/listings/snapshot endpoint.
      * @param { number } params.appid The appid of the item, defaults to 440 (Team Fortress 2).
      * @param { string } params.SKU The SKU is considered to be what you see items being sold as on the backpack.tf listings.
-     * @param { Function } params.callback Optional, called when a response is available. If omitted the function returns a promise.
+     * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns The first fifteen buy and sell orders for the item.
      */
-    getListings({ appid = 440, sku = 'Team Captain', callback }: GetListingsParameters): Promise<GetListingsResponse> | void {
+    getListings({ appid = 440, sku = 'Team Captain', callback }: GetListingsParameters = {}): Promise<GetListingsResponse> | void {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
