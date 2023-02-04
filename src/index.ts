@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 import { ClassifiedsBody, ClassifiedsResponse, ClassifiedsCallback } from './types/classifieds'
-import { GetMyListingsResponse, GetListingsResponse, CreateListingsResponse, GetMyListingsParameters, GetListingsParameters, CreateListingsParameters } from './types/listings'
+import { GetMyListingsResponse, GetListingsResponse, CreateListingsResponse, GetMyListingsParameters, GetListingsParameters, CreateListingsParameters, CreatableListing } from './types/listings'
 import { CreateListingParameters, DeleteAllListingsParameters, DeleteListingParameters, DeleteListingsParameters, GetListingParameters, GetUserListingsParameters } from './types/listings/parameters'
-import { CreateListingResponse, DeleteAllListingsResponse, DeleteListingsResponse, GetListingResponse } from './types/listings/responses'
+import { CreateListingResponse, DeleteAllListingsResponse, DeleteListingResponse, DeleteListingsResponse, GetListingResponse } from './types/listings/responses'
 
 export interface SearchResponse {
     response: {
@@ -78,19 +78,19 @@ class Classifieds {
             if (typeof callback === 'function') {
                 // Callback with the GET response data
                 callback(null, response.data)
+            } else {
+                // Return the GET response data
+                return response.data
             }
-
-            // Return the GET response data
-            return response.data
         }).catch(error => {
             // The callback parameter must be a function
             if (typeof callback === 'function') {
                 // Callback with the caught error
                 callback(error, null)
+            } else {
+                // Throw the error if no callback was supplied
+                throw error
             }
-
-            // Throw the error if no callback was supplied
-            throw error
         })
     }
 
@@ -108,19 +108,19 @@ class Classifieds {
             if (typeof callback === 'function') {
                 // Callback with the POST response data
                 callback(null, response.data)
+            } else {
+                // Return the POST response data
+                return response.data
             }
-
-            // Return the POST response data
-            return response.data
         }).catch(error => {
             // The callback parameter must be a function
             if (typeof callback === 'function') {
                 // Callback with the caught error
                 callback(error, null)
+            } else {
+                // Throw the error if no callback was supplied
+                throw error
             }
-
-            // Throw the error if no callback was supplied
-            throw error
         })
     }
 
@@ -136,19 +136,19 @@ class Classifieds {
             if (typeof callback === 'function') {
                 // Callback with the DELETE response data
                 callback(null, response.data)
+            } else {
+                // Return the DELETE response data
+                return response.data
             }
-
-            // Return the DELETE response data
-            return response.data
         }).catch(error => {
             // The callback parameter must be a function
             if (typeof callback === 'function') {
                 // Callback with the caught error
                 callback(error, null)
+            } else {
+                // Throw the error if no callback was supplied
+                throw error
             }
-
-            // Throw the error if no callback was supplied
-            throw error
         })
     }
 
@@ -184,42 +184,60 @@ class Classifieds {
 
     /**
      * Delete multiple Classifieds listings.
-     * @param { any } params 
+     * @param { any } params An object of valid arguments for the /classifieds/delete/v1 endpoint.
      * @returns { Promise<DeleteListingsResponse> | void }
      */
     deleteListings({ callback }: DeleteListingsParameters = {}): Promise<DeleteListingsResponse> | void {
-        return this.DELETE(`https://backpack.tf/api//classifieds/delete/v1`, callback)
+        // Check if the token is defined
+        if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
+
+        // Return the response from the /classifieds/delete/v1 endpoint        
+        return this.DELETE(`https://backpack.tf/api//classifieds/delete/v1?token=${this.token}`, callback)
     }
 
     /**
      * Create multiple Classifieds listings.
-     * @param params An object of valid arguments for the /classifieds/list/v1 endpoint.
-     * @returns { Promise<CreateListingsResponse> | void }
+     * @param { any } params An object of valid arguments for the /classifieds/list/v1 endpoint.
+     * @param { Array<CreatableListing> } param.listings An array of Classifieds listings.
+     * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
+     * @returns { Promise<CreateListingsResponse> | void } Creates multiple Classifieds listings on Backpack.tf.
      */
-    createListings({ callback }: CreateListingsParameters = {}): Promise<CreateListingsResponse> | void {
+    createListings({ listings = [], callback }: CreateListingsParameters = {}): Promise<CreateListingsResponse> | void {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
         // Return the response from the /classifieds/list/v1 endpoint
-        return this.POST('https://backpack.tf/api/classifieds/list/v1', { token: this.token, listings: [] }, callback)
+        return this.POST(`https://backpack.tf/api/classifieds/list/v1?token=${this.token}`, { listings }, callback)
     }
 
     /**
-     * 
-     * @param param0 
-     * @returns { Promise<GetListingResponse> | void }
+     * Get a Classifieds listing by its ID.
+     * @param { any } params An object of valid arguments for the /classifieds/listings endpoint.
+     * @param { string } params.id The listing id. This is required.
+     * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
+     * @returns { Promise<GetListingResponse> | void } The listing object or an error if not found.
      */
-    getListing({ callback }: GetListingParameters = {}): Promise<GetListingResponse> | void {
-        return this.GET(``, callback)
+    getListing({ id = '', callback }: GetListingParameters = {}): Promise<GetListingResponse> | void {
+        // Check if the token is defined
+        if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
+
+        // Return the response from the /classifieds/listings endpoint
+        return this.GET(`https://backpack.tf/api/classifieds/listings/${id}?token=${this.token}`, callback)
     }
 
     /**
-     * 
-     * @param param0 
-     * @returns { Promise<DeleteListingsResponse> | void }
+     * Delete a Classifieds listing by its ID.
+     * @param { any } params An object of valid arguments for the /classifieds/listings endpoint.
+     * @param { string } params.id The listing id. This is required.
+     * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
+     * @returns { Promise<DeleteListingResponse> | void } A status code that indicates if the listing was successfully deleted.
      */
-    deleteListing({ callback }: DeleteListingParameters = {}): Promise<DeleteListingsResponse> | void {
-        return this.DELETE(``, callback)
+    deleteListing({ id = '', callback }: DeleteListingParameters = {}): Promise<DeleteListingResponse> | void {
+        // Check if the token is defined
+        if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
+
+        // Return the response from the /classifieds/listings endpoint    
+        return this.DELETE(`https://backpack.tf/api/classifieds/listings/${id}?token=${this.token}`, callback)
     }
 
     /**
@@ -238,20 +256,22 @@ class Classifieds {
 
     /**
      * 
-     * @param param0 
+     * @param { any } params 
+     * @param { void } params.callback
      * @returns 
      */
     createListing({ callback }: CreateListingParameters = {}): Promise<CreateListingResponse> | void {
-        return this.POST(`https://backpack.tf/api/classifieds/listings`, callback)
+        return this.POST('https://backpack.tf/api/classifieds/listings', callback)
     }
 
     /**
      * 
-     * @param param0 
+     * @param { any } params 
+     * @param { void } params.callback
      * @returns 
      */
     deleteAllListings({ callback }: DeleteAllListingsParameters = {}): Promise<DeleteAllListingsResponse> | void {
-        return this.DELETE(`https://backpack.tf/api/classifieds/listings`, callback)
+        return this.DELETE('https://backpack.tf/api/classifieds/listings', callback)
     }
 
     /**
@@ -278,7 +298,7 @@ class Classifieds {
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns The first fifteen buy and sell orders for the item.
      */
-    getListings({ appid = 440, sku = 'Team Captain', callback }: GetListingsParameters = {}): Promise<GetListingsResponse> | void {
+    getListings({ appid = 440, sku = 'The Team Captain', callback }: GetListingsParameters = {}): Promise<GetListingsResponse> | void {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
@@ -289,3 +309,7 @@ class Classifieds {
 
 // Export the Classifieds class
 export default Classifieds
+
+export {
+    CreatableListing
+}

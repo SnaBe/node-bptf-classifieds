@@ -1,13 +1,13 @@
 export interface DeleteListingsResponse {
-
+    message: string
 }
 
 export interface DeleteListingResponse {
-    
+    message: string
 }
 
 export interface GetListingResponse {
-
+    message: string
 }
 
 export interface GetUserListingsResponse {
@@ -21,9 +21,9 @@ export interface GetUserListingsResponse {
 }
 
 export interface CreateListingResponse {
-
+    message: string
 }
 
 export interface DeleteAllListingsResponse {
-
+    message: string
 }

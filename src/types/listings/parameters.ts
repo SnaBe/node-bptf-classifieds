@@ -5,17 +5,19 @@ import {
     GetUserListingsResponse,
     CreateListingResponse,
     DeleteAllListingsResponse
-} from "./responses";
+} from './responses'
 
 export interface DeleteListingsParameters {
     callback?: (error: Error | null, response: DeleteListingsResponse | null) => void
 }
 
 export interface DeleteListingParameters {
+    id?: string,
     callback?: (error: Error | null, response: DeleteListingResponse | null) => void
 }
 
 export interface GetListingParameters {
+    id?: string,
     callback?: (error: Error | null, response: GetListingResponse | null) => void
 }
 

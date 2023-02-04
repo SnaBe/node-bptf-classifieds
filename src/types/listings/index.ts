@@ -68,6 +68,25 @@ export interface CreateListing {
     }
 }
 
+export interface CreatableListing {
+    intent: 0 | 1,
+    id?: string,
+    item?: {
+        quality: string,
+        item_name: string,
+        craftable?: string | number,
+        priceindex?: number
+    },
+    offers?: number,
+    buyout?: number,
+    promoted?: number,
+    details?: string,
+    currencies: {
+        metal?: number,
+        keys?: number
+    }
+}
+
 export interface GetMyListingsResponse {
     message?: string,
     cap: number,
@@ -83,7 +102,16 @@ export interface GetListingsResponse {
 }
 
 export interface CreateListingsResponse {
-    message: string
+    message?: string,
+    listings: {
+        [key: string]: {
+            created?: number,
+            error?: number,
+            retry?: number,
+            used?: number,
+            cap?: number
+        }
+    }
 }
 
 export interface GetMyListingsParameters {
@@ -98,5 +126,6 @@ export interface GetListingsParameters {
 }
 
 export interface CreateListingsParameters {
+    listings?: Array<CreatableListing>,
     callback?: (error: Error | null, response: CreateListingsResponse | null) => void
 }

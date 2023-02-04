@@ -1,15 +1,15 @@
 import { expect } from 'chai'
 
-import Classifieds from '../src/index'
+import Classifieds, { CreatableListing } from '../src/index'
 
 const classifieds = new Classifieds(process.env.USER_TOKEN, process.env.API_KEY)
 
 describe('getMyListings', () => {
-    it('should return an array of my classifieds listings', (done) => {
+    it('should return an array of the session user\'s classifieds listings', (done) => {
         classifieds.getMyListings({ callback: (error, response) => {
             if (error) return done(error)
 
-            console.log(response)
+            expect(response).to.be.an('object')
 
             done()
         }})
@@ -29,13 +29,28 @@ describe('getListings', () => {
     })
 })
 
+const listings: Array<CreatableListing> = [
+    {
+        intent: 0,
+        item: {
+            quality: 'Unique',
+            item_name: 'Trencher\'s Tunic'
+        },
+        details: 'Only buying 1 Tunic.',
+        currencies: {
+            metal: 4.77,
+            keys: 0
+        }
+    }
+]
+
 describe('createListings', () => {
     it('should', (done) => {
-        classifieds.createListings({ callback: (error, response) => {
-            if (error) console.log(error)
+        classifieds.createListings({ listings, callback: (error, response) => {
             if (error) return done(error)
 
-            console.log(response)
+            expect(response).to.be.an('object')
+            expect(response).to.have.property('listings')
 
             done()
         }})
