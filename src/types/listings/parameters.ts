@@ -1,3 +1,4 @@
+import { CreatableListing } from '.'
 import { 
     DeleteListingsResponse,
     DeleteListingResponse,
@@ -8,6 +9,7 @@ import {
 } from './responses'
 
 export interface DeleteListingsParameters {
+    ids?: Array<string>,
     callback?: (error: Error | null, response: DeleteListingsResponse | null) => void
 }
 
@@ -28,6 +30,7 @@ export interface GetUserListingsParameters {
 }
 
 export interface CreateListingParameters {
+    listing?: CreatableListing | null,
     callback?: (error: Error | null, response: CreateListingResponse | null) => void
 }
 

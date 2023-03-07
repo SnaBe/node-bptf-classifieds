@@ -1,5 +1,7 @@
 export interface DeleteListingsResponse {
-    message: string
+    deleted: number,
+    skipped: Array<any>,
+    errors: Array<any>
 }
 
 export interface DeleteListingResponse {

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { ClassifiedsBody, ClassifiedsResponse, ClassifiedsCallback } from './types/classifieds'
 import { GetMyListingsResponse, GetListingsResponse, CreateListingsResponse, GetMyListingsParameters, GetListingsParameters, CreateListingsParameters, CreatableListing } from './types/listings'
 import { CreateListingParameters, DeleteAllListingsParameters, DeleteListingParameters, DeleteListingsParameters, GetListingParameters, GetUserListingsParameters } from './types/listings/parameters'
-import { CreateListingResponse, DeleteAllListingsResponse, DeleteListingResponse, DeleteListingsResponse, GetListingResponse } from './types/listings/responses'
+import { CreateListingResponse, DeleteAllListingsResponse, DeleteListingResponse, DeleteListingsResponse, GetListingResponse, GetUserListingsResponse } from './types/listings/responses'
 
 export interface SearchResponse {
     response: {
@@ -130,8 +130,8 @@ class Classifieds {
      * @param callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns The response data from the request.
      */
-    private DELETE(endpoint: string, callback?: ClassifiedsCallback): Promise<ClassifiedsResponse> | void {
-        return axios.delete(endpoint).then(response => {
+    private DELETE(endpoint: string, body: ClassifiedsBody, callback?: ClassifiedsCallback): Promise<ClassifiedsResponse> | void {
+        return axios.delete(endpoint, body).then(response => {
             // The callback parameter must be a function
             if (typeof callback === 'function') {
                 // Callback with the DELETE response data
@@ -185,14 +185,15 @@ class Classifieds {
     /**
      * Delete multiple Classifieds listings.
      * @param { any } params An object of valid arguments for the /classifieds/delete/v1 endpoint.
-     * @returns { Promise<DeleteListingsResponse> | void }
+     * @param { Array<string> } params.ids An array of Classifieds listing ids. 
+     * @returns { Promise<DeleteListingsResponse> | void } The number of listings that was deleted or skipped. 
      */
-    deleteListings({ callback }: DeleteListingsParameters = {}): Promise<DeleteListingsResponse> | void {
+    deleteListings({ ids = [], callback }: DeleteListingsParameters = {}): Promise<DeleteListingsResponse> | void {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
         // Return the response from the /classifieds/delete/v1 endpoint        
-        return this.DELETE(`https://backpack.tf/api//classifieds/delete/v1?token=${this.token}`, callback)
+        return this.DELETE(`https://backpack.tf/api/classifieds/delete/v1?token=${this.token}`, { listing_ids: ids }, callback)
     }
 
     /**
@@ -237,7 +238,7 @@ class Classifieds {
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
         // Return the response from the /classifieds/listings endpoint    
-        return this.DELETE(`https://backpack.tf/api/classifieds/listings/${id}?token=${this.token}`, callback)
+        return this.DELETE(`https://backpack.tf/api/classifieds/listings/${id}?token=${this.token}`, null, callback)
     }
 
     /**
@@ -255,13 +256,17 @@ class Classifieds {
     }
 
     /**
-     * 
-     * @param { any } params 
-     * @param { void } params.callback
-     * @returns 
+     * Creates a new Classifieds listing.
+     * @param { any } params An object of valid arguments for the /classifieds/limits endpoint.
+     * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
+     * @returns { Promise<CreateListingResponse> | void }
      */
-    createListing({ callback }: CreateListingParameters = {}): Promise<CreateListingResponse> | void {
-        return this.POST('https://backpack.tf/api/classifieds/listings', callback)
+    createListing({ listing = null, callback }: CreateListingParameters = {}): Promise<CreateListingResponse> | void {
+        // Check if the token is defined
+        if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
+
+        // Return the response from the /classifieds/listings endpoint
+        return this.POST('https://backpack.tf/api/classifieds/listings', listing, callback)
     }
 
     /**
@@ -271,7 +276,11 @@ class Classifieds {
      * @returns 
      */
     deleteAllListings({ callback }: DeleteAllListingsParameters = {}): Promise<DeleteAllListingsResponse> | void {
-        return this.DELETE('https://backpack.tf/api/classifieds/listings', callback)
+        // Check if the token is defined
+        if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
+
+        // Return the response from the /classifieds/listings endpoint
+        return this.DELETE('https://backpack.tf/api/classifieds/listings', null, callback)
     }
 
     /**
@@ -282,7 +291,7 @@ class Classifieds {
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns The listings for the current session user.
      */
-    getUserListings({ skip = 0, limit = 100, callback }: GetUserListingsParameters = {}): Promise<GetUserLimitsResponse> | void {
+    getUserListings({ skip = 0, limit = 100, callback }: GetUserListingsParameters = {}): Promise<GetUserListingsResponse> | void {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
@@ -310,6 +319,7 @@ class Classifieds {
 // Export the Classifieds class
 export default Classifieds
 
+// Export the Classifieds types
 export {
     CreatableListing
 }
