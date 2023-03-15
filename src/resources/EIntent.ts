@@ -1,4 +1,4 @@
-export enum ListingIntent {
+export enum EListingIntent {
     SELL,
     BUY
 }

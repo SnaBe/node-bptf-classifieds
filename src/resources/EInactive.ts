@@ -1,4 +1,4 @@
-export enum InactiveListing {
+export enum EInactiveListing {
     HIDE,
     SHOW
 }
