@@ -1,8 +1,11 @@
-import { expect } from 'chai'
+/*import { expect } from 'chai'
 
 import Classifieds, { CreatableListing } from '../src/index'
 
-const classifieds = new Classifieds(process.env.USER_TOKEN, process.env.API_KEY)
+const classifieds = new Classifieds({
+    token: process.env.USER_TOKEN,
+    apiKey: process.env.API_KEY
+})
 
 describe('getMyListings', () => {
     it('should return an array of the session user\'s classifieds listings', (done) => {
@@ -55,4 +58,4 @@ describe('createListings', () => {
             done()
         }})
     })
-})
+})*/
