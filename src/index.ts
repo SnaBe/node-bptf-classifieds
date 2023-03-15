@@ -1,9 +1,38 @@
 import axios from 'axios'
 
-import { ClassifiedsBody, ClassifiedsResponse, ClassifiedsCallback } from './types/classifieds'
-import { GetMyListingsResponse, GetListingsResponse, CreateListingsResponse, GetMyListingsParameters, GetListingsParameters, CreateListingsParameters, CreatableListing } from './types/listings'
-import { CreateListingParameters, DeleteAllListingsParameters, DeleteListingParameters, DeleteListingsParameters, GetListingParameters, GetUserListingsParameters } from './types/listings/parameters'
-import { CreateListingResponse, DeleteAllListingsResponse, DeleteListingResponse, DeleteListingsResponse, GetListingResponse, GetUserListingsResponse } from './types/listings/responses'
+import { 
+    ClassifiedsBody, 
+    ClassifiedsResponse, 
+    ClassifiedsCallback 
+} from './types/classifieds'
+
+import { 
+    GetMyListingsResponse, 
+    GetListingsResponse, 
+    CreateListingsResponse, 
+    GetMyListingsParameters, 
+    GetListingsParameters, 
+    CreateListingsParameters, 
+    CreatableListing 
+} from './types/listings'
+
+import { 
+    CreateListingParameters, 
+    DeleteAllListingsParameters, 
+    DeleteListingParameters, 
+    DeleteListingsParameters, 
+    GetListingParameters, 
+    GetUserListingsParameters 
+} from './types/listings/parameters'
+
+import { 
+    CreateListingResponse, 
+    DeleteAllListingsResponse, 
+    DeleteListingResponse, 
+    DeleteListingsResponse, 
+    GetListingResponse, 
+    GetUserListingsResponse 
+} from './types/listings/responses'
 
 export interface SearchResponse {
     response: {
@@ -41,28 +70,38 @@ export interface GetUserLimitsParameters {
     callback?: (error: Error | null, response: GetUserLimitsResponse | null) => void
 }
 
-export interface ClassifiedsOptions {
+export interface IClassifiedsOptions {
     token?: string,
-    key?: string
+    apiKey?: string
 }
 
-// Wrapper class for the Backpack.tf Classifieds Web API
-class Classifieds {
+// Export the wrapper class for the Backpack.tf Classifieds Web API
+export default class Classifieds {
     // The user's token stored in a private field
     private readonly token: string | undefined
-    private readonly key: string | undefined
+    private readonly apiKey: string | undefined
 
-    /**
-     * Constructs a new bptf-classifieds instance.
-     * @param { string } token A Backpack.tf user token.
-     * @param { string } key A Backpack.tf API key.
-     */
-    constructor(token: string | undefined, key: string | undefined) {
+
+    /*constructor(token: string | undefined, apiKey: string | undefined) {
         // A Backpack.tf user token is required to make requests
         this.token = token
 
         // A Backpack.tfAPI key is required to make premium requests
-        this.key = key
+        this.apiKey = apiKey
+    }*/
+
+    /**
+     * Constructs a new bptf-classifieds instance.
+     * @param { any } options An object of valid options for the Classifieds class constructor.
+     * @param { string } options.token A Backpack.tf user token.
+     * @param { string } options.apiKey A Backpack.tf API key.
+     */
+    constructor({ token = undefined, apiKey = undefined }: IClassifiedsOptions) {
+        // A Backpack.tf user token is required to make requests
+        this.token = token
+
+        // A Backpack.tfAPI key is required to make premium requests
+        this.apiKey = apiKey
     }
 
     /**
@@ -161,10 +200,10 @@ class Classifieds {
      */
     search({ intent = 'dual', page_size = 10, fold = 1, item = 'Team Captain', callback }: SearchParameters = {}): Promise<SearchResponse> | void {
         // Check if the API key is defined
-        if (this.key === undefined || this.key.length === 0 || this.key === '') throw new Error('The Backpack.tf API key is an invalid string or missing.')
+        if (this.apiKey === undefined || this.apiKey.length === 0 || this.apiKey === '') throw new Error('The Backpack.tf API key is an invalid string or missing.')
         
-        // Return the response from the /classifieds/search/v1 endpoint
-        return this.GET(`https://backpack.tf/api/classifieds/search/v1?key=${this.key}&intent=${intent}&page_size=${page_size}&fold=${fold}&item=${item}`, callback)
+        // Return the response from the GET /classifieds/search/v1 endpoint
+        return this.GET(`https://backpack.tf/api/classifieds/search/v1?key=${this.apiKey}&intent=${intent}&page_size=${page_size}&fold=${fold}&item=${item}`, callback)
     }
 
     /**
@@ -178,7 +217,7 @@ class Classifieds {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
-        // Return the response from the /classifieds/listings/v1 endpoint
+        // Return the response from the GET /classifieds/listings/v1 endpoint
         return this.GET(`https://backpack.tf/api/classifieds/listings/v1?inactive=${inactive}&token=${this.token}`, callback)
     }
 
@@ -192,7 +231,7 @@ class Classifieds {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
-        // Return the response from the /classifieds/delete/v1 endpoint        
+        // Return the response from the DELETE /classifieds/delete/v1 endpoint        
         return this.DELETE(`https://backpack.tf/api/classifieds/delete/v1?token=${this.token}`, { listing_ids: ids }, callback)
     }
 
@@ -207,7 +246,7 @@ class Classifieds {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
-        // Return the response from the /classifieds/list/v1 endpoint
+        // Return the response from the POST /classifieds/list/v1 endpoint
         return this.POST(`https://backpack.tf/api/classifieds/list/v1?token=${this.token}`, { listings }, callback)
     }
 
@@ -222,7 +261,7 @@ class Classifieds {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
-        // Return the response from the /classifieds/listings endpoint
+        // Return the response from the GET /classifieds/listings endpoint
         return this.GET(`https://backpack.tf/api/classifieds/listings/${id}?token=${this.token}`, callback)
     }
 
@@ -237,7 +276,7 @@ class Classifieds {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
-        // Return the response from the /classifieds/listings endpoint    
+        // Return the response from the DELETE /classifieds/listings endpoint    
         return this.DELETE(`https://backpack.tf/api/classifieds/listings/${id}?token=${this.token}`, null, callback)
     }
 
@@ -251,7 +290,7 @@ class Classifieds {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
         
-        // Return the response from the /classifieds/limits endpoint
+        // Return the response from the GET /classifieds/limits endpoint
         return this.GET(`https://backpack.tf/api/classifieds/limits?token=${this.token}`, callback)
     }
 
@@ -265,22 +304,22 @@ class Classifieds {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
-        // Return the response from the /classifieds/listings endpoint
-        return this.POST('https://backpack.tf/api/classifieds/listings', listing, callback)
+        // Return the response from the POST /classifieds/listings endpoint
+        return this.POST(`https://backpack.tf/api/classifieds/listings?token=${this.token}`, listing, callback)
     }
 
     /**
-     * 
-     * @param { any } params 
-     * @param { void } params.callback
-     * @returns 
+     * Delete all Backpack.tf Classifieds listings associated with the token.
+     * @param { any } params An object of valid arguments for the /classifieds/limits endpoint.
+     * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
+     * @returns A status code of 501 Not Implemented.
      */
     deleteAllListings({ callback }: DeleteAllListingsParameters = {}): Promise<DeleteAllListingsResponse> | void {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
-        // Return the response from the /classifieds/listings endpoint
-        return this.DELETE('https://backpack.tf/api/classifieds/listings', null, callback)
+        // Return the response from the DELETE /classifieds/listings endpoint
+        return this.DELETE(`https://backpack.tf/api/classifieds/listings?token=${this.token}`, null, callback)
     }
 
     /**
@@ -295,7 +334,7 @@ class Classifieds {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
-        // Return the response from the /classifieds/listings/self endpoint
+        // Return the response from the GET /classifieds/listings/self endpoint
         return this.GET(`https://backpack.tf/api/classifieds/listings/self?skip=${skip}&limit=${limit}&token=${this.token}`, callback)
     }
 
@@ -315,9 +354,6 @@ class Classifieds {
         return this.GET(`https://backpack.tf/api/classifieds/listings/snapshot?sku=${sku}&appid=${appid}&token=${this.token}`, callback)
     }
 }
-
-// Export the Classifieds class
-export default Classifieds
 
 // Export the Classifieds types
 export {
