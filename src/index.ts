@@ -81,15 +81,6 @@ export default class Classifieds {
     private readonly token: string | undefined
     private readonly apiKey: string | undefined
 
-
-    /*constructor(token: string | undefined, apiKey: string | undefined) {
-        // A Backpack.tf user token is required to make requests
-        this.token = token
-
-        // A Backpack.tfAPI key is required to make premium requests
-        this.apiKey = apiKey
-    }*/
-
     /**
      * Constructs a new bptf-classifieds instance.
      * @param { any } options An object of valid options for the Classifieds class constructor.
