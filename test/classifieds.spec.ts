@@ -1,61 +1,48 @@
-/*import { expect } from 'chai'
+// We'll use Mocha and Chai's expect module for unit testing
+import { expect } from 'chai'
 
-import Classifieds, { CreatableListing } from '../src/index'
+// Import the module and its data types
+// Replace this with const Classifieds = require('bptf-classifieds'); if used outside of the module directory
+import Classifieds from '../src/index'
 
+// Create a new Classifieds instance using your Backpack.tf credentials
 const classifieds = new Classifieds({
-    token: process.env.USER_TOKEN,
-    apiKey: process.env.API_KEY
+    token: process.env.USER_TOKEN, // Your Backpack.tf user token
+    apiKey: process.env.API_KEY // Your Backpack.tf API key
 })
 
-describe('getMyListings', () => {
-    it('should return an array of the session user\'s classifieds listings', (done) => {
-        classifieds.getMyListings({ callback: (error, response) => {
-            if (error) return done(error)
+// Test the type Classifieds class object types
+describe('classifieds object', () => {
+    // The classifieds object should be an instance of the Classifieds constructor
+    it('should match the return type of the constructor', (done) => {
+        // The classifieds instance should match the class constructor
+        expect(classifieds).to.be.an.instanceof(Classifieds)
 
-            expect(response).to.be.an('object')
-
-            done()
-        }})
+        // Call done to end the test when the callback is invoked
+        done()
     })
-})
 
-describe('getListings', () => {
-    it('should return an array of item listings relevant to the SKU', (done) => {
-        classifieds.getListings({ sku: 'Sunbeams Federal Casemaker', callback: (error, response) => {
+    // The object should contain properties associated with the user's limits
+    it('should return an object of limits', (done) => {
+        // Get the user limits associated with this Classifieds instance
+        classifieds.getUserLimits({ callback: (error, response) => {
+            // An error occured during the request
             if (error) return done(error)
 
-            expect(response).to.be.an('object')
-            expect(response).to.have.property('listings')
-
-            done()
-        }})
-    })
-})
-
-const listings: Array<CreatableListing> = [
-    {
-        intent: 0,
-        item: {
-            quality: 'Unique',
-            item_name: 'Trencher\'s Tunic'
-        },
-        details: 'Only buying 1 Tunic.',
-        currencies: {
-            metal: 4.77,
-            keys: 0
-        }
-    }
-]
-
-describe('createListings', () => {
-    it('should', (done) => {
-        classifieds.createListings({ listings, callback: (error, response) => {
-            if (error) return done(error)
-
+            // The response should have status code 200 (ok)
+            // it should also be an object
+            // and must have a object property named "listings"
             expect(response).to.be.an('object')
             expect(response).to.have.property('listings')
 
+            // The listings object should also have a property named "used"
+            // and must be of type number and equal zero
+            expect(response?.listings).to.have.property('used')
+            expect(response?.listings.used).to.be.a('number')
+            expect(response?.listings.used).to.equal(0)
+
+            // Call done to end the test when the callback is invoked
             done()
         }})
     })
-})*/
+})
