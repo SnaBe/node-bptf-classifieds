@@ -25,7 +25,7 @@ $ yarn add bptf-classifieds
 
 ## Testing
 
-**Note**: Make sure you've supplied a valid `user token` in the [test.js](https://github.com/SnaBe/node-bptf-prices/blob/main/test/test.js) file.
+**Note**: Make sure you've supplied a valid `user token` or `API key` in the [test.js](https://github.com/SnaBe/node-bptf-prices/blob/main/test/test.js) file.
 
 Using [npm](https://docs.npmjs.com/cli/v8/commands/npm-run-script):
 ```bash
@@ -51,9 +51,12 @@ const Classifieds = require('bptf-classifieds');
 import Classifieds from 'bptf-classifieds';
 ```
 
-### Instantiating with the `apiKey` option
+### Instantiating with the `token` and `apiKey` options
 ```js
-const classifieds = new Classifieds('XXXXXXXXXXXXXXXXXXXXXXXX');
+const classifieds = new Classifieds({ 
+    token: 'XXXXXXXXXXXXXXXXXXXXXXXX',
+    apiKey: 'XXXXXXXXXXXXXXXXXXXXXXXX'  
+});
 ```
 
 ### Asynchronous requests with `callbacks`

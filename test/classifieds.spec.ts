@@ -1,7 +1,7 @@
 // We'll use Mocha and Chai's expect module for unit testing
 import { expect } from 'chai'
 
-// Import the module and its data types
+// Import the Classifieds module
 // Replace this with const Classifieds = require('bptf-classifieds'); if used outside of the module directory
 import Classifieds from '../src/index'
 
