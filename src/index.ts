@@ -34,6 +34,8 @@ import {
     GetUserListingsResponse 
 } from './types/listings/responses'
 
+import { EListingIntent } from './resources/EIntent'
+
 export interface SearchResponse {
     response: {
         message: string
@@ -70,9 +72,10 @@ export interface GetUserLimitsParameters {
     callback?: (error: Error | null, response: GetUserLimitsResponse | null) => void
 }
 
+// Constructor options for the Classifieds class
 export interface IClassifiedsOptions {
-    token?: string,
-    apiKey?: string
+    token?: string, // Backpack.tf user token
+    apiKey?: string // Backpack.tf API key
 }
 
 // Export the wrapper class for the Backpack.tf Classifieds Web API
@@ -104,13 +107,16 @@ export default class Classifieds {
     private GET(endpoint: string, callback?: ClassifiedsCallback): Promise<ClassifiedsResponse> | void {
         // Return a promise if no callback is supplied
         return axios.get(endpoint).then(response => {
+            // The Axios response might have an empty data property
+            const data = response.data ? response.data : response.status
+
             // The callback parameter must be a function
             if (typeof callback === 'function') {
-                // Callback with the GET response data
-                callback(null, response.data)
+                // Callback with the GET request's response data
+                callback(null, data)
             } else {
-                // Return the GET response data
-                return response.data
+                // Return the GET request's response data
+                return data
             }
         }).catch(error => {
             // The callback parameter must be a function
@@ -134,13 +140,16 @@ export default class Classifieds {
     private POST(endpoint: string, body: ClassifiedsBody, callback?: ClassifiedsCallback): Promise<ClassifiedsResponse> | void {
         // Return a promise if no callback is supplied
         return axios.post(endpoint, body).then(response => {
+            // The Axios response might have an empty data property
+            const data = response.data ? response.data : response.status
+
             // The callback parameter must be a function
             if (typeof callback === 'function') {
-                // Callback with the POST response data
-                callback(null, response.data)
+                // Callback with the POST request's response data
+                callback(null, data)
             } else {
-                // Return the POST response data
-                return response.data
+                // Return the POST request's response data
+                return data
             }
         }).catch(error => {
             // The callback parameter must be a function
@@ -161,14 +170,18 @@ export default class Classifieds {
      * @returns The response data from the request.
      */
     private DELETE(endpoint: string, body: ClassifiedsBody, callback?: ClassifiedsCallback): Promise<ClassifiedsResponse> | void {
-        return axios.delete(endpoint, body).then(response => {
+        // Return a promise if no callback is supplied
+        return axios.delete(endpoint, { data: body }).then(response => {
+            // The Axios response might have an empty data property
+            const data = response.data ? response.data : response.status
+
             // The callback parameter must be a function
             if (typeof callback === 'function') {
-                // Callback with the DELETE response data
-                callback(null, response.data)
+                // Callback with the DELETE request response data
+                callback(null, data)
             } else {
-                // Return the DELETE response data
-                return response.data
+                // Return the DELETE request response data
+                return data
             }
         }).catch(error => {
             // The callback parameter must be a function
@@ -183,7 +196,7 @@ export default class Classifieds {
     }
 
     /**
-     * Search the Backpack.tf Classifieds programmatically.
+     * Search the Backpack.tf Classified listings programmatically.
      * @param { any } params An object of valid arguments for the /classifieds/search/v1 endpoint.
      * @param { string } params.item The item's name, defaults to Team Captain.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
@@ -231,7 +244,7 @@ export default class Classifieds {
      * @param { any } params An object of valid arguments for the /classifieds/list/v1 endpoint.
      * @param { Array<CreatableListing> } param.listings An array of Classifieds listings.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
-     * @returns { Promise<CreateListingsResponse> | void } Creates multiple Classifieds listings on Backpack.tf.
+     * @returns { Promise<CreateListingsResponse> | void } A list of objects that represents the listings that was created.
      */
     createListings({ listings = [], callback }: CreateListingsParameters = {}): Promise<CreateListingsResponse> | void {
         // Check if the token is defined
@@ -289,7 +302,7 @@ export default class Classifieds {
      * Creates a new Classifieds listing.
      * @param { any } params An object of valid arguments for the /classifieds/limits endpoint.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
-     * @returns { Promise<CreateListingResponse> | void }
+     * @returns { Promise<CreateListingResponse> | void } An object that represents the listing that was created.
      */
     createListing({ listing = null, callback }: CreateListingParameters = {}): Promise<CreateListingResponse> | void {
         // Check if the token is defined
@@ -348,5 +361,6 @@ export default class Classifieds {
 
 // Export the Classifieds types
 export {
-    CreatableListing
+    CreatableListing,
+    EListingIntent as ListingIntent
 }
