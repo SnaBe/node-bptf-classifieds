@@ -9,7 +9,24 @@ export interface DeleteListingResponse {
 }
 
 export interface GetListingResponse {
-    message: string
+    id: string,
+    steamid: string,
+    appid: number,
+    currencies: {
+        metal?: number,
+        keys?: number
+    },
+    offers?: number,
+    buyouy?: number,
+    details?: string,
+    created: number,
+    bump: number,
+    intent: 0 | 1,
+    item: {
+        defindex: number,
+        quality: number,
+        name: string
+    }
 }
 
 export interface GetUserListingsResponse {

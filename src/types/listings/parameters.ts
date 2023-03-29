@@ -1,4 +1,7 @@
-import { CreatableListing } from '.'
+// Import the unique type for creating listings
+import { CreatableListing } from './index'
+
+// Import the necessary Classifieds reponse types
 import { 
     DeleteListingsResponse,
     DeleteListingResponse,

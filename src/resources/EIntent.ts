@@ -1,4 +1,4 @@
 export enum EListingIntent {
-    SELL,
-    BUY
+    BUY,
+    SELL
 }

@@ -71,7 +71,7 @@ export interface CreateListing {
 export interface CreatableListing {
     intent: 0 | 1,
     id?: string,
-    item?: {
+    item: {
         quality: string,
         item_name: string,
         craftable?: string | number,
