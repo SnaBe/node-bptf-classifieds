@@ -1,86 +1,48 @@
 import axios from 'axios'
 
-import { 
-    ClassifiedsBody, 
-    ClassifiedsResponse, 
-    ClassifiedsCallback 
-} from './types/classifieds'
-
-import { 
-    GetMyListingsResponse, 
-    GetListingsResponse, 
-    CreateListingsResponse, 
-    GetMyListingsParameters, 
-    GetListingsParameters, 
-    CreateListingsParameters, 
-    CreatableListing 
-} from './types/listings'
-
-import { 
-    CreateListingParameters, 
-    DeleteAllListingsParameters, 
-    DeleteListingParameters, 
-    DeleteListingsParameters, 
-    GetListingParameters, 
-    GetUserListingsParameters 
-} from './types/listings/parameters'
-
-import { 
-    CreateListingResponse, 
-    DeleteAllListingsResponse, 
-    DeleteListingResponse, 
-    DeleteListingsResponse, 
-    GetListingResponse, 
-    GetUserListingsResponse 
-} from './types/listings/responses'
-
 import { EListingIntent } from './resources/EIntent'
+import { EInactiveListing } from './resources/EInactive'
 
-export interface SearchResponse {
-    response: {
-        message: string
-    }
-}
+import { CreatableListing } from './types/common'
 
-export interface SearchParameters {
-    intent?: 'sell' | 'buy' | 'dual',
-    page_size?: number,
-    fold?: 0 | 1,
-    item?: string,
-    steamid?: string,
-    callback?: (error: Error | null, response: SearchResponse | null) => void
-}
+import { 
+    ClassifiedsBody,
+    ClassifiedsOptions,
+    ClassifiedsResponse, 
+    ClassifiedsCallback,
+} from './types/common'
 
-export interface GetUserLimitsResponse {
-    listings: {
-        promotionSlotsAvailable?: number,
-        used: number,
-        total: number,
-        baseline?: number,
-        donationBonus?: number,
-        giftedPremiumMonthsBonus?: number,
-        multiplier?: number,
-        twitterFollowerBonus?: number,
-        acceptedSuggestionBonus?: number,
-        mvpDonationBonus?: number,
-        groupMembershipBonus?: number,
-        bumpInterval?: number
-    }
-}
+import {
+    SearchParameters,
+    GetListingParameters,
+    GetListingsParameters,
+    GetUserLimitsParameters,
+    GetMyListingsParameters,
+    CreateListingParameters,
+    DeleteListingParameters,
+    CreateListingsParameters,
+    DeleteListingsParameters, 
+    GetUserListingsParameters,
+    DeleteAllListingsParameters,
+} from './types/parameters'
 
-export interface GetUserLimitsParameters {
-    callback?: (error: Error | null, response: GetUserLimitsResponse | null) => void
-}
-
-// Constructor options for the Classifieds class
-export interface IClassifiedsOptions {
-    token?: string, // Backpack.tf user token
-    apiKey?: string // Backpack.tf API key
-}
+import {
+    SearchResponse,
+    GetListingResponse,
+    GetListingsResponse,
+    GetUserLimitsResponse,
+    GetMyListingsResponse,
+    CreateListingResponse,
+    DeleteListingResponse,
+    CreateListingsResponse,
+    DeleteListingsResponse,
+    GetUserListingsResponse,
+    DeleteAllListingsResponse,
+} from './types/responses'
 
 // Export the wrapper class for the Backpack.tf Classifieds Web API
 export default class Classifieds {
-    // The user's token stored in a private field
+    // The user's token and API key stored in a private field
     private readonly token: string | undefined
     private readonly apiKey: string | undefined
 
@@ -90,7 +52,7 @@ export default class Classifieds {
      * @param { string } options.token A Backpack.tf user token.
      * @param { string } options.apiKey A Backpack.tf API key.
      */
-    constructor({ token = undefined, apiKey = undefined }: IClassifiedsOptions) {
+    constructor({ token = undefined, apiKey = undefined }: ClassifiedsOptions) {
         // A Backpack.tf user token is required to make requests
         this.token = token
 
@@ -362,5 +324,6 @@ export default class Classifieds {
 // Export the Classifieds types
 export {
     CreatableListing,
-    EListingIntent as ListingIntent
+    EListingIntent as ListingIntent,
+    EInactiveListing as InactiveListing
 }
