@@ -1,4 +1,5 @@
+/** The intent for the Classified listing */
 export enum EListingIntent {
-    BUY,
-    SELL
+    BUY, // Buy listing
+    SELL // Sell listing
 }

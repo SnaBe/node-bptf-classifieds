@@ -1,4 +1,5 @@
+/** Filter for inactive Classified listings */
 export enum EInactiveListing {
-    HIDE,
-    SHOW
+    HIDE, // Hide inactive listings
+    SHOW // Show inactive listings
 }
