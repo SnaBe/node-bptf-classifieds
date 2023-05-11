@@ -1,13 +1,13 @@
 # node-bptf-classifieds
 A Node.js wrapper for the Backpack.tf Classifieds Web API.
 
-[![npm version](https://img.shields.io/npm/v/bptf-classifieds.svg)](https://npmjs.com/package/bptf-classifieds)
-[![node version](https://img.shields.io/node/v/bptf-classifieds)](https://nodejs.org/en/about/releases/)
-[![npm test](https://img.shields.io/github/actions/workflow/status/SnaBe/node-bptf-classifieds/test.yml?logo=github&branch=main)](https://github.com/SnaBe/node-bptf-classifieds/actions/workflows/test.yml)
-[![dependencies](https://img.shields.io/librariesio/release/npm/bptf-classifieds)](https://www.npmjs.com/package/bptf-classifieds)
-[![npm downloads](https://img.shields.io/npm/dm/bptf-classifieds.svg)](https://npmjs.com/package/bptf-classifieds)
-[![license](https://img.shields.io/npm/l/bptf-classifieds.svg)](https://github.com/SnaBe/node-bptf-classifieds/blob/master/LICENSE)
-[![paypal](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.me/snabe)
+[![npm version](https://img.shields.io/npm/v/bptf-classifieds.svg?style=flat-square)](https://npmjs.com/package/bptf-classifieds)
+[![node version](https://img.shields.io/node/v/bptf-classifieds?style=flat-square)](https://nodejs.org/en/about/releases/)
+[![npm test](https://img.shields.io/github/actions/workflow/status/SnaBe/node-bptf-classifieds/test.yml?logo=github&branch=main&style=flat-square)](https://github.com/SnaBe/node-bptf-classifieds/actions/workflows/test.yml)
+[![dependencies](https://img.shields.io/librariesio/release/npm/bptf-classifieds?style=flat-square)](https://www.npmjs.com/package/bptf-classifieds)
+[![npm downloads](https://img.shields.io/npm/dm/bptf-classifieds.svg?style=flat-square)](https://npmjs.com/package/bptf-classifieds)
+[![license](https://img.shields.io/npm/l/bptf-classifieds.svg?style=flat-square)](https://github.com/SnaBe/node-bptf-classifieds/blob/master/LICENSE)
+[![paypal](https://img.shields.io/badge/paypal-donate-yellow.svg?style=flat-square)](https://www.paypal.me/snabe)
 
 ## Installation
 
