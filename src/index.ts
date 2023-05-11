@@ -1,17 +1,15 @@
+// Import the required dependencies for the Classifieds class
 import axios from 'axios'
 
-import { EListingIntent } from './resources/EIntent'
-import { EInactiveListing } from './resources/EInactive'
-
-import { CreatableListing } from './types/common'
-
+// Import common Classified types
 import { 
-    ClassifiedsBody,
-    ClassifiedsOptions,
-    ClassifiedsResponse, 
-    ClassifiedsCallback,
+    ClassifiedsBody, // Placeholder for the Axios request body
+    ClassifiedsOptions, // Constructor options for the Classifieds class
+    ClassifiedsResponse, // Placeholder for the Axios response
+    ClassifiedsCallback, // Callback interface for the Axios response
 } from './types/common'
 
+// Import Classified parameter types
 import {
     SearchParameters,
     GetListingParameters,
@@ -21,23 +19,24 @@ import {
     CreateListingParameters,
     DeleteListingParameters,
     CreateListingsParameters,
-    DeleteListingsParameters, 
+    DeleteListingsParameters,
     GetUserListingsParameters,
     DeleteAllListingsParameters,
 } from './types/parameters'
 
+// Import all the Classified response types
 import {
-    SearchResponse,
-    GetListingResponse,
-    GetListingsResponse,
-    GetUserLimitsResponse,
-    GetMyListingsResponse,
-    CreateListingResponse,
-    DeleteListingResponse,
-    CreateListingsResponse,
-    DeleteListingsResponse,
-    GetUserListingsResponse,
-    DeleteAllListingsResponse,
+    SearchResponse, // Response object for the search method
+    GetListingResponse, // Response object for the getListing method
+    GetListingsResponse, // Response object for the getListings method
+    GetUserLimitsResponse, // Response object for the getUserLimits method
+    GetMyListingsResponse, // Response object for the getMyListings method
+    CreateListingResponse, // Response object for the createListing method
+    DeleteListingResponse, // Response object for the deleteListing method
+    CreateListingsResponse, // Response object for the createListings method
+    DeleteListingsResponse, // Response object for the deleteListings method
+    GetUserListingsResponse, // Response object for the getUserListings
+    DeleteAllListingsResponse, // Response object for the deleteAllListings method
 } from './types/responses'
 
 // Export the wrapper class for the Backpack.tf Classifieds Web API
@@ -48,7 +47,7 @@ export default class Classifieds {
 
     /**
      * Constructs a new bptf-classifieds instance.
-     * @param { any } options An object of valid options for the Classifieds class constructor.
+     * @param { ClassifiedsOptions } options An object of valid options for the Classifieds class constructor.
      * @param { string } options.token A Backpack.tf user token.
      * @param { string } options.apiKey A Backpack.tf API key.
      */
@@ -159,8 +158,12 @@ export default class Classifieds {
 
     /**
      * Search the Backpack.tf Classified listings programmatically.
-     * @param { any } params An object of valid arguments for the /classifieds/search/v1 endpoint.
+     * @param { SearchParameters } params An object of valid arguments for the /classifieds/search/v1 endpoint.
+     * @param { string } params.intent Filter for buy or sell listings only, defaults to both.
+     * @param { number } params.page_size The number of listings to return for each page.
+     * @param { number } params.fold Option for folding listing details together.
      * @param { string } params.item The item's name, defaults to Team Captain.
+     * @param { string } params.steamid Filter for a specfic Backpack.tf or Steam user.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<SearchResponse> | void } Backpack.tf Classifieds matching the method parameters.
      */
@@ -174,7 +177,7 @@ export default class Classifieds {
 
     /**
      * Get your own Backpack.tf Classifieds listings.
-     * @param { any } params An object of valid arguments for the /classifieds/listings/v1 endpoint.
+     * @param { GetMyListingsParameters } params An object of valid arguments for the /classifieds/listings/v1 endpoint.
      * @param { number } params.inactive If 0, hides your inactive listings.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<GetMyListingsResponse> | void } Your Backpack.tf Classifieds listings.
@@ -189,7 +192,7 @@ export default class Classifieds {
 
     /**
      * Delete multiple Classifieds listings.
-     * @param { any } params An object of valid arguments for the /classifieds/delete/v1 endpoint.
+     * @param { DeleteListingsParameters } params An object of valid arguments for the /classifieds/delete/v1 endpoint.
      * @param { Array<string> } params.ids An array of Classifieds listing ids. 
      * @returns { Promise<DeleteListingsResponse> | void } The number of listings that was deleted or skipped. 
      */
@@ -203,7 +206,7 @@ export default class Classifieds {
 
     /**
      * Create multiple Classifieds listings.
-     * @param { any } params An object of valid arguments for the /classifieds/list/v1 endpoint.
+     * @param { CreateListingsParameters } params An object of valid arguments for the /classifieds/list/v1 endpoint.
      * @param { Array<CreatableListing> } param.listings An array of Classifieds listings.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<CreateListingsResponse> | void } A list of objects that represents the listings that was created.
@@ -218,7 +221,7 @@ export default class Classifieds {
 
     /**
      * Get a Classifieds listing by its ID.
-     * @param { any } params An object of valid arguments for the /classifieds/listings endpoint.
+     * @param { GetListingParameters } params An object of valid arguments for the /classifieds/listings endpoint.
      * @param { string } params.id The listing id. This is required.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<GetListingResponse> | void } The listing object or an error if not found.
@@ -233,7 +236,7 @@ export default class Classifieds {
 
     /**
      * Delete a Classifieds listing by its ID.
-     * @param { any } params An object of valid arguments for the /classifieds/listings endpoint.
+     * @param { DeleteListingParameters } params An object of valid arguments for the /classifieds/listings endpoint.
      * @param { string } params.id The listing id. This is required.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<DeleteListingResponse> | void } A status code that indicates if the listing was successfully deleted.
@@ -248,7 +251,7 @@ export default class Classifieds {
 
     /**
      * Get the listing limits of the session user.
-     * @param { any } params An object of valid arguments for the /classifieds/limits endpoint.
+     * @param { GetUserLimitsParameters } params An object of valid arguments for the /classifieds/limits endpoint.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<UserLimitsResponse> | void } The listing limits of the session user.
      */
@@ -262,7 +265,7 @@ export default class Classifieds {
 
     /**
      * Creates a new Classifieds listing.
-     * @param { any } params An object of valid arguments for the /classifieds/limits endpoint.
+     * @param { CreateListingParameters } params An object of valid arguments for the /classifieds/limits endpoint.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<CreateListingResponse> | void } An object that represents the listing that was created.
      */
@@ -276,7 +279,7 @@ export default class Classifieds {
 
     /**
      * Delete all Backpack.tf Classifieds listings associated with the token.
-     * @param { any } params An object of valid arguments for the /classifieds/limits endpoint.
+     * @param { DeleteAllListingsParameters } params An object of valid arguments for the /classifieds/limits endpoint.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns A status code of 501 Not Implemented.
      */
@@ -290,7 +293,7 @@ export default class Classifieds {
 
     /**
      * Get the listings for the current session user.
-     * @param { any } params An object of valid arguments for the /classifieds/listings/snapshot endpoint.
+     * @param { GetUserListingsParameters } params An object of valid arguments for the /classifieds/listings/snapshot endpoint.
      * @param { number } params.skip The offset at which to return listings.
      * @param { number } params.limit The listing limit.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
@@ -306,7 +309,7 @@ export default class Classifieds {
 
     /**
      * Get an array of relevant listings for an item SKU.
-     * @param { any } params An object of valid arguments for the /classifieds/listings/snapshot endpoint.
+     * @param { GetListingsParameters } params An object of valid arguments for the /classifieds/listings/snapshot endpoint.
      * @param { number } params.appid The appid of the item, defaults to 440 (Team Fortress 2).
      * @param { string } params.SKU The SKU is considered to be what you see items being sold as on the backpack.tf listings.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
@@ -321,9 +324,11 @@ export default class Classifieds {
     }
 }
 
-// Export the Classifieds types
-export {
-    CreatableListing,
-    EListingIntent as ListingIntent,
-    EInactiveListing as InactiveListing
-}
+// Export common Classified types
+export * from './types/common'
+
+// Export Classified parameter types
+export * from './types/parameters'
+
+// Export Classified response types
+export * from './types/responses'

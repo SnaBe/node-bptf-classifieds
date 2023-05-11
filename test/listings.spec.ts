@@ -96,7 +96,7 @@ describe('Backpack.tf Classified tests', () => {
             classifieds.getMyListings({ callback: (error, response) => {
                 // An error occured during the request
                 if (error) return done(error)
-    
+
                 // The response should have status code 200 (ok)
                 // it should also be an object
                 // and must have a property named "listings"
