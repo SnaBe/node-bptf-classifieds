@@ -89,7 +89,20 @@ export interface CreateListingsResponse {
 /** Response object for the search method. */
 export interface SearchResponse {
     response: { // The response object
-        message: string // Response message
+        message: string // Response message or status code
+        total?: number // Amount of listings matched by the query
+        skip?: number // How many listings were skipped for this page
+        page_size?: number // How many listings are shown on this page
+        buy?: { // Listings with buy intent
+            total: number, // Number of buy listings
+            listings: Array<ListingElement>, // Array of listing elements
+            fold: boolean // If fold listings were present
+        },
+        sell?: { // Listings with sell intent
+            total: number, // Number of sell listings
+            listings: Array<ListingElement>, // Array of listing elements
+            fold: boolean // // If fold listings were present
+        }
     }
 }
 

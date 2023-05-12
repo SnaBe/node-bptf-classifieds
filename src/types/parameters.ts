@@ -1,4 +1,4 @@
-// Import the unique type for creating listings
+// Import the unique TypeScript type for creating Classified listings
 import { CreatableListing } from './common'
 
 // Import the necessary Classifieds response types
@@ -54,6 +54,7 @@ export interface DeleteAllListingsParameters {
 
 /** Parameter options for the getMyListings method. */
 export interface GetMyListingsParameters {
+    intent?: 0 | 1, // Filter by intent
     inactive?: 0 | 1, // Filter for inactive listings
     callback?: (error: Error | null, response: GetMyListingsResponse | null) => void // Callback function
 }

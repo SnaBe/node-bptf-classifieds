@@ -44,7 +44,7 @@ export interface UserListing {
         metal?: number, // Refined Metal
         keys?: number // Mann Co. Keys
     },
-    offers: number, // If the Listing accepts offers
+    offers: number, // If the listing accepts offers
     buyout: number, // Buyouts only
     details: string, // Listing description
     created: number, // Date the listing was created
@@ -74,7 +74,7 @@ export interface Listing {
     }
 }
 
-/** A Classified listing element object. */
+/** A Classifieds listing element object. */
 export interface ListingElement {
     id: string, // The listing id
     steamid?: string, // The author of the listing
@@ -95,7 +95,7 @@ export interface ListingElement {
     promoted?: number // If the listing was promoted, requires premium
 }
 
-/** The object structure required for creating listings. */
+/** The object structure required for creating a Classifieds listing. */
 export interface CreateListing {
     intent: 0 | 1, // Buy or sell
     id?: string, // Asset id if selling
@@ -125,7 +125,7 @@ export interface CreatableListing {
         craftable?: string | number, // If the item is craftable
         priceindex?: number // The item's price index
     },
-    offers?: number, // If the Listing accepts offers
+    offers?: number, // If the listing accepts offers
     buyout?: number, // Buyouts only
     promoted?: number, // If the listing was promoted, requires premium
     details?: string, // Listing description
