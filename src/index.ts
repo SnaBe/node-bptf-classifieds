@@ -1,15 +1,15 @@
 // Import the required dependencies for the Classifieds class
 import axios from 'axios'
 
-// Import common Classified types
+// Import common Classified TypeScript types
 import { 
     ClassifiedsBody, // Placeholder for the Axios request body
     ClassifiedsOptions, // Constructor options for the Classifieds class
     ClassifiedsResponse, // Placeholder for the Axios response
-    ClassifiedsCallback, // Callback interface for the Axios response
+    ClassifiedsCallback // Callback interface for the Axios response
 } from './types/common'
 
-// Import Classified parameter types
+// Import Classified parameter TypeScript types
 import {
     SearchParameters,
     GetListingParameters,
@@ -24,7 +24,7 @@ import {
     DeleteAllListingsParameters,
 } from './types/parameters'
 
-// Import all the Classified response types
+// Import all the Classified response TypeScript types
 import {
     SearchResponse, // Response object for the search method
     GetListingResponse, // Response object for the getListing method
@@ -39,9 +39,9 @@ import {
     DeleteAllListingsResponse, // Response object for the deleteAllListings method
 } from './types/responses'
 
-// Export the wrapper class for the Backpack.tf Classifieds Web API
-export default class Classifieds {
-    // The user's token and API key stored in a private field
+/** A Node.js wrapper for the Backpack.tf Classifieds Web API. */
+export class Classifieds {
+    // The user's token and API key stored in private fields
     private readonly token: string | undefined
     private readonly apiKey: string | undefined
 
@@ -138,10 +138,10 @@ export default class Classifieds {
 
             // The callback parameter must be a function
             if (typeof callback === 'function') {
-                // Callback with the DELETE request response data
+                // Callback with the DELETE request's response data
                 callback(null, data)
             } else {
-                // Return the DELETE request response data
+                // Return the DELETE request's response data
                 return data
             }
         }).catch(error => {
@@ -157,13 +157,13 @@ export default class Classifieds {
     }
 
     /**
-     * Search the Backpack.tf Classified listings programmatically.
+     * Search the Backpack.tf Classifieds programmatically.
      * @param { SearchParameters } params An object of valid arguments for the /classifieds/search/v1 endpoint.
-     * @param { string } params.intent Filter for buy or sell listings only, defaults to both.
-     * @param { number } params.page_size The number of listings to return for each page.
-     * @param { number } params.fold Option for folding listing details together.
-     * @param { string } params.item The item's name, defaults to Team Captain.
-     * @param { string } params.steamid Filter for a specfic Backpack.tf or Steam user.
+     * @param { string } params.intent  Filter listings by intent, defaults to dual.
+     * @param { number } params.page_size Modify the page size used to paginate, defaults to 10.
+     * @param { number } params.fold If set to 0, disables listing folding.
+     * @param { string } params.item Item name to search for, defaults to Team Captain.
+     * @param { string } params.steamid Only show listings created by the user whose Steam ID is passed.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<SearchResponse> | void } Backpack.tf Classifieds matching the method parameters.
      */
@@ -178,16 +178,20 @@ export default class Classifieds {
     /**
      * Get your own Backpack.tf Classifieds listings.
      * @param { GetMyListingsParameters } params An object of valid arguments for the /classifieds/listings/v1 endpoint.
+     * @param { number } params.intent Filter listings by intent, can be 0 (buy) or 1 (sell).
      * @param { number } params.inactive If 0, hides your inactive listings.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<GetMyListingsResponse> | void } Your Backpack.tf Classifieds listings.
      */
-    getMyListings({ inactive = 1, callback }: GetMyListingsParameters = {}): Promise<GetMyListingsResponse> | void {
+    getMyListings({ intent = undefined, inactive = 1, callback }: GetMyListingsParameters = {}): Promise<GetMyListingsResponse> | void {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
+        // If the intent parameter is missing, return listings with both intents
+        const missing = intent ? `intent=${intent}&` : ''
+
         // Return the response from the GET /classifieds/listings/v1 endpoint
-        return this.GET(`https://backpack.tf/api/classifieds/listings/v1?inactive=${inactive}&token=${this.token}`, callback)
+        return this.GET(`https://backpack.tf/api/classifieds/listings/v1?${missing}inactive=${inactive}&token=${this.token}`, callback)
     }
 
     /**
@@ -222,13 +226,16 @@ export default class Classifieds {
     /**
      * Get a Classifieds listing by its ID.
      * @param { GetListingParameters } params An object of valid arguments for the /classifieds/listings endpoint.
-     * @param { string } params.id The listing id. This is required.
+     * @param { string } params.id The listing id, this is required.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<GetListingResponse> | void } The listing object or an error if not found.
      */
     getListing({ id = '', callback }: GetListingParameters = {}): Promise<GetListingResponse> | void {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
+
+        // Check if the listing id is defined
+        if (id === undefined || id.length === 0 || id === '') throw new Error('The listing id is an invalid string or missing.')
 
         // Return the response from the GET /classifieds/listings endpoint
         return this.GET(`https://backpack.tf/api/classifieds/listings/${id}?token=${this.token}`, callback)
@@ -237,13 +244,16 @@ export default class Classifieds {
     /**
      * Delete a Classifieds listing by its ID.
      * @param { DeleteListingParameters } params An object of valid arguments for the /classifieds/listings endpoint.
-     * @param { string } params.id The listing id. This is required.
+     * @param { string } params.id The listing id, this is required.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<DeleteListingResponse> | void } A status code that indicates if the listing was successfully deleted.
      */
     deleteListing({ id = '', callback }: DeleteListingParameters = {}): Promise<DeleteListingResponse> | void {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
+
+        // Check if the listing id is defined
+        if (id === undefined || id.length === 0 || id === '') throw new Error('The listing id is an invalid string or missing.')
 
         // Return the response from the DELETE /classifieds/listings endpoint    
         return this.DELETE(`https://backpack.tf/api/classifieds/listings/${id}?token=${this.token}`, null, callback)
@@ -266,6 +276,7 @@ export default class Classifieds {
     /**
      * Creates a new Classifieds listing.
      * @param { CreateListingParameters } params An object of valid arguments for the /classifieds/limits endpoint.
+     * @param { CreatableListing } params.listing A Classifieds listing object.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<CreateListingResponse> | void } An object that represents the listing that was created.
      */
@@ -324,11 +335,11 @@ export default class Classifieds {
     }
 }
 
-// Export common Classified types
+// Export common Classifieds types
 export * from './types/common'
 
-// Export Classified parameter types
+// Export Classifieds parameter types
 export * from './types/parameters'
 
-// Export Classified response types
+// Export Classifieds response types
 export * from './types/responses'

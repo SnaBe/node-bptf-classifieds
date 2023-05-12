@@ -2,8 +2,8 @@
 import { expect } from 'chai'
 
 // Import the Classifieds module and its relevant data types
-// Replace this with const Classifieds = require('bptf-classifieds'); if used outside of the module directory
-import Classifieds, { CreatableListing } from '../src/index'
+// Replace this with import Classifieds from 'bptf-classifieds'; if used outside of the module directory
+import { Classifieds, CreatableListing } from '../src/index'
 
 // Create a new Classifieds instance using the token and API key options
 const classifieds = new Classifieds({
@@ -64,7 +64,7 @@ describe('Backpack.tf Classified tests', () => {
         }
     ]
 
-    // Create a number of classified listings on Backpack.tf
+    // Create a number of Classified listings on Backpack.tf
     describe('createListings', () => {
         // The request should result in the creation of two Classified listings
         it('should create 2 classified listings', (done) => {

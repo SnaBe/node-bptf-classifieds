@@ -1,9 +1,9 @@
-// We'll use Mocha and Chai's expect module for unit testing
+// Import Mocha and Chai's expect module for unit testing
 import { expect } from 'chai'
 
 // Import the Classifieds module
-// Replace this with const Classifieds = require('bptf-classifieds'); if used outside of the module directory
-import Classifieds from '../src/index'
+// Replace this with import Classifieds from 'bptf-classifieds'; if used outside of the module directory
+import { Classifieds } from '../src/index'
 
 // Create a new Classifieds instance using your Backpack.tf credentials
 const classifieds = new Classifieds({

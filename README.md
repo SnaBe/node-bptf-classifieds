@@ -42,13 +42,13 @@ $ yarn test
 ### Importing with `CommonJS`
 
 ```js
-const Classifieds = require('bptf-classifieds');
+const { Classifieds } = require('bptf-classifieds');
 ```
 
 ### or with `ES6's import` statement
 
 ```js
-import Classifieds from 'bptf-classifieds';
+import { Classifieds } from 'bptf-classifieds';
 ```
 
 ### Instantiating with the `token` and `apiKey` options
