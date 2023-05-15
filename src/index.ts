@@ -188,17 +188,17 @@ export class Classifieds {
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
         // If the intent parameter is missing, return listings with both intents
-        const missing = intent ? `intent=${intent}&` : ''
+        const prefix = intent ? `intent=${intent}&` : ''
 
         // Return the response from the GET /classifieds/listings/v1 endpoint
-        return this.GET(`https://backpack.tf/api/classifieds/listings/v1?${missing}inactive=${inactive}&token=${this.token}`, callback)
+        return this.GET(`https://backpack.tf/api/classifieds/listings/v1?${prefix}inactive=${inactive}&token=${this.token}`, callback)
     }
 
     /**
      * Delete multiple Classifieds listings.
      * @param { DeleteListingsParameters } params An object of valid arguments for the /classifieds/delete/v1 endpoint.
      * @param { Array<string> } params.ids An array of Classifieds listing ids. 
-     * @returns { Promise<DeleteListingsResponse> | void } The number of listings that was deleted or skipped. 
+     * @returns { Promise<DeleteListingsResponse> | void } The number of listings that were deleted or skipped. 
      */
     deleteListings({ ids = [], callback }: DeleteListingsParameters = {}): Promise<DeleteListingsResponse> | void {
         // Check if the token is defined
@@ -213,7 +213,7 @@ export class Classifieds {
      * @param { CreateListingsParameters } params An object of valid arguments for the /classifieds/list/v1 endpoint.
      * @param { Array<CreatableListing> } param.listings An array of Classifieds listings.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
-     * @returns { Promise<CreateListingsResponse> | void } A list of objects that represents the listings that was created.
+     * @returns { Promise<CreateListingsResponse> | void } A list of objects that represents the listings that were created.
      */
     createListings({ listings = [], callback }: CreateListingsParameters = {}): Promise<CreateListingsResponse> | void {
         // Check if the token is defined

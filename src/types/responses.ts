@@ -9,9 +9,7 @@ export interface DeleteListingsResponse {
 }
 
 /** Response object for the deleteListing method. */
-export interface DeleteListingResponse {
-    message: string // Attached request message
-}
+export type DeleteListingResponse = number
 
 /** Response object for the getListing method. */
 export interface GetListingResponse {
