@@ -204,6 +204,9 @@ export class Classifieds {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
+        // Check if the ids array is empty
+        if (Array.isArray(ids) && !ids.length) throw new Error('The array of Classifieds listing ids can not be empty.')
+
         // Return the response from the DELETE /classifieds/delete/v1 endpoint        
         return this.DELETE(`https://backpack.tf/api/classifieds/delete/v1?token=${this.token}`, { listing_ids: ids }, callback)
     }
@@ -218,6 +221,9 @@ export class Classifieds {
     createListings({ listings = [], callback }: CreateListingsParameters = {}): Promise<CreateListingsResponse> | void {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
+
+        // Check if the listings array is empty
+        if (Array.isArray(listings) && !listings.length) throw new Error('The array of Classified listings can not be empty.')
 
         // Return the response from the POST /classifieds/list/v1 endpoint
         return this.POST(`https://backpack.tf/api/classifieds/list/v1?token=${this.token}`, { listings }, callback)
@@ -284,6 +290,9 @@ export class Classifieds {
         // Check if the token is defined
         if (this.token === undefined || this.token.length === 0 || this.token === '') throw new Error('The Backpack.tf token is an invalid string or missing.')
 
+        // Check if the listing object is missing
+        if (listing === undefined || listing === null) throw new Error('The listing object is invalid or missing.')
+
         // Return the response from the POST /classifieds/listings endpoint
         return this.POST(`https://backpack.tf/api/classifieds/listings?token=${this.token}`, listing, callback)
     }
@@ -322,7 +331,7 @@ export class Classifieds {
      * Get an array of relevant listings for an item SKU.
      * @param { GetListingsParameters } params An object of valid arguments for the /classifieds/listings/snapshot endpoint.
      * @param { number } params.appid The appid of the item, defaults to 440 (Team Fortress 2).
-     * @param { string } params.SKU The SKU is considered to be what you see items being sold as on the backpack.tf listings.
+     * @param { string } params.sku The SKU is considered to be what you see items being sold as on the Backpack.tf listings.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns The first fifteen buy and sell orders for the item.
      */
