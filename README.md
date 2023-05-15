@@ -63,7 +63,7 @@ const classifieds = new Classifieds({
 
 ```js
 classifieds.getListings({
-    SKU: 'Fizzy Pharmacist',
+    sku: 'Fizzy Pharmacist',
     callback: (err, data) => {
         if (err) throw err;
 
@@ -78,7 +78,7 @@ classifieds.getListings({
 (async () => {
     try {
         const data = await classifieds.getListings({ 
-            SKU: 'Bird-Man of Aberdeen'
+            sku: 'The Bird-Man of Aberdeen'
         });
 
         console.log(data.listings);
