@@ -178,7 +178,7 @@ export class Classifieds {
     /**
      * Get your own Backpack.tf Classifieds listings.
      * @param { GetMyListingsParameters } params An object of valid arguments for the /classifieds/listings/v1 endpoint.
-     * @param { number } params.intent Filter listings by intent, can be 0 (buy) or 1 (sell).
+     * @param { number } params.intent Filter listings by intent, can be 0 (buy) or 1 (sell). If missing, returns listings with both intents.
      * @param { number } params.inactive If 0, hides your inactive listings.
      * @param { void } params.callback Optional, called when a response is available. If omitted the function returns a promise.
      * @returns { Promise<GetMyListingsResponse> | void } Your Backpack.tf Classifieds listings.
@@ -352,3 +352,6 @@ export * from './types/parameters'
 
 // Export Classifieds response types
 export * from './types/responses'
+
+// Export Classifieds enumerated types
+export * from './resources'
