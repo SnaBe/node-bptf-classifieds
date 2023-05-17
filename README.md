@@ -25,7 +25,7 @@ $ yarn add bptf-classifieds
 
 ## Testing
 
-**Note**: Make sure you've supplied a valid `user token` or `API key` in the [test.js](https://github.com/SnaBe/node-bptf-prices/blob/main/test/test.js) file.
+**Note**: Make sure you've supplied a valid `user token` or `API key` in the [spec.ts](https://github.com/SnaBe/node-bptf-classifieds/tree/main/test) files.
 
 Using [npm](https://docs.npmjs.com/cli/v8/commands/npm-run-script):
 ```bash
@@ -88,7 +88,7 @@ classifieds.getListings({
 })();
 ```
 
-There are some more examples available in the [test](https://github.com/SnaBe/node-bptf-prices/tree/main/test) directory.
+There are some more examples available in the [test](https://github.com/SnaBe/node-bptf-classifieds/tree/main/test) directory.
 
 ## Documentation
 
