@@ -25,7 +25,7 @@ $ yarn add bptf-classifieds
 
 ## Testing
 
-**Note**: Make sure you've supplied a valid `user token` or `API key` in the [spec.ts](https://github.com/SnaBe/node-bptf-classifieds/tree/main/test) files.
+**Note**: Make sure you've supplied a valid `user token` and `API key` in the [test](https://github.com/SnaBe/node-bptf-classifieds/tree/main/test) files.
 
 Using [npm](https://docs.npmjs.com/cli/v8/commands/npm-run-script):
 ```bash
