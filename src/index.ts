@@ -159,7 +159,7 @@ export class Classifieds {
     /**
      * Search the Backpack.tf Classifieds programmatically.
      * @param { SearchParameters } params An object of valid arguments for the /classifieds/search/v1 endpoint.
-     * @param { string } params.intent  Filter listings by intent, defaults to dual.
+     * @param { string } params.intent Filter listings by intent, defaults to dual.
      * @param { number } params.page_size Modify the page size used to paginate, defaults to 10.
      * @param { number } params.fold If set to 0, disables listing folding.
      * @param { string } params.item Item name to search for, defaults to Team Captain.
@@ -207,7 +207,7 @@ export class Classifieds {
         // Check if the ids array is empty
         if (Array.isArray(ids) && !ids.length) throw new Error('The array of Classifieds listing ids can not be empty.')
 
-        // Return the response from the DELETE /classifieds/delete/v1 endpoint        
+        // Return the response from the DELETE /classifieds/delete/v1 endpoint
         return this.DELETE(`https://backpack.tf/api/classifieds/delete/v1?token=${this.token}`, { listing_ids: ids }, callback)
     }
 
@@ -261,7 +261,7 @@ export class Classifieds {
         // Check if the listing id is defined
         if (id === undefined || id.length === 0 || id === '') throw new Error('The listing id is an invalid string or missing.')
 
-        // Return the response from the DELETE /classifieds/listings endpoint    
+        // Return the response from the DELETE /classifieds/listings endpoint
         return this.DELETE(`https://backpack.tf/api/classifieds/listings/${id}?token=${this.token}`, null, callback)
     }
 
