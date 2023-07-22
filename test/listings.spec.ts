@@ -44,7 +44,7 @@ describe('Backpack.tf Classified tests', () => {
                 quality: 'Unique', // Unique, Strange, Unusual, ...
                 item_name: 'Trencher\'s Tunic' // Any valid market_hash_name (appid 440)
             },
-            details: 'Only buying 1 Tunic.', // Description of classified listing
+            details: 'Only buying 1 Trencher\'s Tunic.', // Description of classified listing
             currencies: { // The buy price for the listing item
                 metal: 4.77, // Refined, Reclaimed and Scrap metal
                 keys: 0 // Mann Co. Supply Crate Keys
@@ -56,7 +56,7 @@ describe('Backpack.tf Classified tests', () => {
                 quality: 'Strange', // Unique, Strange, Unusual, ...
                 item_name: 'Sniper Rifle' // Any valid market_hash_name (appid 440)
             },
-            details: 'I will pay extra for parts.',
+            details: 'I will pay extra for Strange parts.',
             currencies: { // The buy price for the listing item
                 metal: 34.66, // Refined, Reclaimed and Scrap metal
                 keys: 0 // Mann Co. Supply Crate Keys
