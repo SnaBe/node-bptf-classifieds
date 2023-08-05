@@ -52,7 +52,7 @@ describe('Backpack.tf Classified tests', () => {
         },
         {
             intent: 0, // 0 = Buy, 1 = Sell
-            item: { // // The item object associated with the listing
+            item: { // The item object associated with the listing
                 quality: 'Strange', // Unique, Strange, Unusual, ...
                 item_name: 'Sniper Rifle' // Any valid market_hash_name (appid 440)
             },
@@ -197,7 +197,7 @@ describe('Backpack.tf Classified tests', () => {
     // Classified listing object for a Unique Assassin's Attire
     const listing: CreatableListing = {
         intent: 0, // 0 = Buy, 1 = Sell
-        item: { // // The item object associated with the listing
+        item: { // The item object associated with the listing
             quality: 'Unique', // Unique, Strange, Unusual, ...
             item_name: 'Assassin\'s Attire' // Any valid market_hash_name (appid 440)
         },
