@@ -1,11 +1,11 @@
 // Import the unique data types for listings
-import { ListingElement, Listing, UserListing } from './common'
+import type { ListingElement, Listing, UserListing } from './common'
 
 /** Response object for the deleteListings method. */
 export interface DeleteListingsResponse {
     deleted: number, // The number of listings deleted
-    skipped: Array<any>, // Listings that was skipped due to the errors
-    errors: Array<any> // An array of errors
+    skipped: any[], // Listings that was skipped due to the errors
+    errors: any[] // An array of errors
 }
 
 /** Response object for the deleteListing method. */
@@ -35,7 +35,7 @@ export interface GetListingResponse {
 
 /** Response object for the getUserListings method. */
 export interface GetUserListingsResponse {
-    results: Array<UserListing>, // Array of Classified listings
+    results: UserListing[], // Array of Classified listings
     cursor: { // Object for point reference to listings
         skip: number, // Listings skipped
         limit: number, // Listing limit
@@ -59,12 +59,12 @@ export interface GetMyListingsResponse {
     message?: string, // Response message
     cap: number, // Listings cap
     promotes_remaining: number, // Number of premium promotions remaining
-    listings: Array<ListingElement>
+    listings: ListingElement[]
 }
 
 /** Response object for the getListings method. */
 export interface GetListingsResponse {
-    listings: Array<Listing>, // Array of Classified listings
+    listings: Listing[], // Array of Classified listings
     appid: number, // The app id associated with the listing item
     sku: string, // Item SKU or name
     createdAt: number // Time of the request
@@ -93,12 +93,12 @@ export interface SearchResponse {
         page_size?: number // How many listings are shown on this page
         buy?: { // Listings with buy intent
             total: number, // Number of buy listings
-            listings: Array<ListingElement>, // Array of listing elements
+            listings: ListingElement[], // Array of listing elements
             fold: boolean // If fold listings were present
         },
         sell?: { // Listings with sell intent
             total: number, // Number of sell listings
-            listings: Array<ListingElement>, // Array of listing elements
+            listings: ListingElement[], // Array of listing elements
             fold: boolean // // If fold listings were present
         }
     }

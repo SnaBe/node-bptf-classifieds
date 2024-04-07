@@ -30,8 +30,8 @@ export interface ListingItem {
     inventory?: number, // Inventory id
     quantity?: number, // Number of items owned
     origin?: number, // Origin state for the item
-    equipped?: Array<{ class: number, slot: number }> // If the item is equipped to a class
-    attributes?: Array<ListingAttribute>, // Array of attributes
+    equipped?: { class: number, slot: number }[] // If the item is equipped to a class
+    attributes?: ListingAttribute[], // Array of attributes
     name: string // The item's name
 }
 

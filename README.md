@@ -98,4 +98,4 @@ See the [Wiki pages](https://github.com/SnaBe/node-bptf-classifieds/wiki) for fu
 
 [MIT](LICENSE)
 
-Copyright 2023, Simon Sørensen
+Copyright 2024, Simon Sørensen

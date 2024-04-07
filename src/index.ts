@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 // Import common Classified TypeScript types
-import { 
+import type { 
     ClassifiedsBody, // Placeholder for the Axios request body
     ClassifiedsOptions, // Constructor options for the Classifieds class
     ClassifiedsResponse, // Placeholder for the Axios response
@@ -10,7 +10,7 @@ import {
 } from './types/common'
 
 // Import Classified parameter TypeScript types
-import {
+import type {
     SearchParameters,
     GetListingParameters,
     GetListingsParameters,
@@ -25,7 +25,7 @@ import {
 } from './types/parameters'
 
 // Import all the Classified response TypeScript types
-import {
+import type {
     SearchResponse, // Response object for the search method
     GetListingResponse, // Response object for the getListing method
     GetListingsResponse, // Response object for the getListings method

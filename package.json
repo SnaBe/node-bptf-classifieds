@@ -9,8 +9,8 @@
   ],
   "scripts": {
     "test": "mocha --sort --require dotenv/config --timeout 5000",
-    "fix": "eslint -c .eslintrc.js . --fix",
-    "lint": "eslint -c .eslintrc.js .",
+    "fix": "eslint -c eslint.config.js . --fix",
+    "lint": "eslint -c eslint.config.js .",
     "prepublishOnly": "npm run build",
     "build": "npm run clean && tsc",
     "clean": "rimraf dist"
@@ -37,23 +37,24 @@
   },
   "homepage": "https://github.com/SnaBe/node-bptf-classifieds#readme",
   "devDependencies": {
-    "@types/chai": "^4.3.11",
+    "@types/chai": "^4.3.14",
     "@types/mocha": "^10.0.6",
-    "@types/node": "^20.11.5",
-    "@typescript-eslint/eslint-plugin": "^6.19.1",
-    "@typescript-eslint/parser": "^6.19.1",
+    "@types/node": "^20.12.5",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "chai": "^4.4.1",
     "dotenv": "^16.3.2",
-    "eslint": "^8.56.0",
-    "mocha": "^10.2.0",
+    "eslint": "^8.57.0",
+    "mocha": "^10.4.0",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.4",
+    "typescript-eslint": "^7.5.0"
   },
   "dependencies": {
-    "axios": "^1.6.5"
+    "axios": "^1.6.8"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   }
 }

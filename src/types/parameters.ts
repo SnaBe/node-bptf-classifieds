@@ -1,8 +1,8 @@
 // Import the unique TypeScript type for creating Classified listings
-import { CreatableListing } from './common'
+import type { CreatableListing } from './common'
 
 // Import the necessary Classifieds response types
-import {
+import type {
     SearchResponse, // Response object for the search method
     GetListingResponse, // Response object for the getListing method
     GetListingsResponse, // Response object for the getListings method
@@ -18,7 +18,7 @@ import {
 
 /** Parameter options for the deleteListings method. */
 export interface DeleteListingsParameters {
-    ids?: Array<string>, // Array of listing ids
+    ids?: string[], // Array of listing ids
     callback?: (error: Error | null, response: DeleteListingsResponse | null) => void // Callback function
 }
 
@@ -68,7 +68,7 @@ export interface GetListingsParameters {
 
 /** Parameter options for the createListings method. */
 export interface CreateListingsParameters {
-    listings?: Array<CreatableListing>, // An array of CreatableListing objects
+    listings?: CreatableListing[], // An array of CreatableListing objects
     callback?: (error: Error | null, response: CreateListingsResponse | null) => void // Callback function
 }
 
